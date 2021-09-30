@@ -4,11 +4,12 @@ import folium
 import pandas
 
 #read from volcanoes txt
-data = pandas.read_csv("Webmap_datasources/Volcanoes.txt")
+data = pandas.read_csv("usa-volcano-web-mapping/Webmap_datasources/Volcanoes.txt")
 
 #only read latitude and longtitude 
 lat = list(data["LAT"])
 lon = list(data["LON"])
+elev = list(data["ELEV"])
 
 
 #create map for usa
@@ -19,13 +20,13 @@ zoom_start=5, tiles="Stamen Terrain")
 feature_group = folium.FeatureGroup(name="My Map")
 
 #for loop for adding multiple marker
-for lt, ln in zip(lat,lon):
+for lt, ln, el in zip(lat,lon, elev):
     feature_group.add_child(folium.Marker(
         location=[lt,ln], 
-        popup= "Hi This is Our Place", 
+        popup= str(el), 
         icon=folium.Icon(color='green')))
         
 map.add_child(feature_group)
 
 #create the map html file
-map.save("map.html")
+map.save("usa-volcano-web-mapping/map.html")
